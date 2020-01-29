@@ -1,13 +1,12 @@
 <?php
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'silva.computing.dundee.ac.uk');
-define('DB_USERNAME', '19ac3u09');
-define('DB_PASSWORD', 'cba123');
-define('DB_NAME', '19ac3d09');
+$servername="silva.computing.dundee.ac.uk";
+$username="19agileteam12";
+$password="2437.at12.7342";
 
 /* Attempt to connect to MySQL database */
-$con = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$con = mysqli_connect($servername, $username, $password);
 
 // Check connection
 if($con === false){
