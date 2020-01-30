@@ -1,4 +1,4 @@
-# AgileDevelopment_templateCWRepo
+# Agile Develpment Project
 AC31007/AC51003 Agile Software Engineering - Group Number 12
 
 Group Members:
