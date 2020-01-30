@@ -14,6 +14,21 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Here Maps Library --><!---
+  <meta name="viewport" content="initial-scale=1.0,
+        width=device-width" /> ---> <!-- mobile compatibiity--> <!---
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+          type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+          type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"
+          type="text/javascript" charset="utf-8"></script> ---> <!-- map UI--> <!---
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
+          type="text/javascript" charset="utf-8"></script> --->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+  
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+
 </head>
 <!-- End of head -->
 <!-- Start of body of the website-->
@@ -69,7 +84,9 @@
           </select>
           <br><br><br>
           <!-- Submit button to submit the form -->
-          <button type="submit" class="btn btn-secondary" style="border-radius: 25px">Submit</button>
+          <button type="submit" class="btn btn-secondary" style="border-radius: 25px">List</button>
+          <!-- The following button does not have any functionality working for dislaying maps yet -->
+          <button type="submit" class="btn btn-secondary" style="border-radius: 25px">Map</button>
           <br><br><br>
         </form>
         <!-- End of first form -->
@@ -116,10 +133,27 @@
             </select>
             <br><br><br>
             <!-- Submit button to submit the form -->
-            <button type="submit" class="btn btn-secondary" style="border-radius: 25px">Submit</button>
+            <button type="submit" class="btn btn-secondary" style="border-radius: 25px">List</button>
+            <!-- The following button does not have any functionality working for dislaying maps yet -->
+            <button type="submit" class="btn btn-secondary" style="border-radius: 25px">Map</button>
             <br><br><br>
         </form>
+         <!--<div style="width: 640px; height: 480px" id="mapContainer"></div>
+        <script src="/js/map.js"></script>-->
         <!-- End of second form -->
+        <br>
+        <div align="center">
+          <div id='map' style='width: 100%; height: 600px; border-radius: 25px'></div>
+          <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiYWxpZmFsbCIsImEiOiJjazYwdXBzeWwwYjc5M2Zwa2R5Z3ZnNzJrIn0.lwKKZZoZhQcQY5M06BOyag';
+            var map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v11',
+              zoom: 3,
+              center: { lng: -100, lat: 37  }
+            });
+          </script>
+        </div>
         <ul class="list-unstyled">
         <br>
           <li>Bootstrap 4.3.1</li>
@@ -127,6 +161,7 @@
         </ul>
       </div>
     </div>
+    
   </div>
 
   <!-- Bootstrap core JavaScript -->
