@@ -1,5 +1,5 @@
 <?php
-require_once './connection.php';
+//require_once './connection.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -7,7 +7,7 @@ class test extends TestCase
 {
     protected $object;
 
-    static private $pdo = null;
+    protected static $pdo = null;
     private $conn = null;
 
     public function getConnection(){
@@ -17,20 +17,20 @@ class test extends TestCase
             }
             $this->conn = $this->createDefaultFunction(self::$pdo, $GLOBALS['DB_NAME']);
         }
-        return $this-conn;
+        return $this->conn;
     }
 
     protected function setUp():void
     {
-        
+        self::$pdo = new PDO($GLOBALS['DB_DSN'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASSWD']);
     }
     
     protected function tearDown():void
     {
-        
+        self::$pdo = null;
     }
     
-    public function testNothing(){
+    public function testCorrectState(){
         $this->assertTrue(true,'true');
     }
 }
