@@ -15,6 +15,21 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Here Maps Library -->
+  <meta name="viewport" content="initial-scale=1.0,
+            width=device-width" /> <!-- mobile compatibiity-->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"
+            type="text/javascript" charset="utf-8"></script> <!-- map UI-->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
+            type="text/javascript" charset="utf-8"></script> <!-- enables interactve map-->
+    <link rel="stylesheet" type="text/css"
+          href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
 </head>
 <!-- End of head -->
 <!-- Start of body of the website-->
@@ -23,6 +38,34 @@
   <!-- Navigation bar for the website-->
   <?php include_once 'navigationBar.php'; ?>
 
+
+  <!-- Two columns -->
+  <div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;">
+  <!-- First div -->
+    <div class="col-lg-12 text-left" style="width: 30%">
+    <?php
+        $procedureD=$_POST['procedureList'];
+        $stateD=$_POST['stateList'];
+            // SQL query to receive the details of the available hospitals from the database
+            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND procedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
+            $result = $con->query($sql);
+            while ($row = mysqli_fetch_array($result)){
+              echo "Hospital ID: " . $row['providerId']; 
+              echo "<br>Hospital Name: " . $row['providerName'];
+              echo "<br>Address: " . $row['providerAddress'] . " " . $row['providerCity'] . " " .  $row['providerState'] . " " . $row['providerZipCode'] . " " . $row['regionDescription'];
+              echo "<br>Price: " .  $row['averageTotalPayment'] . "<br>";
+            }
+              mysqli_next_result($con);
+
+    ?>
+    </div>
+  <!-- Second div -->
+    <div class="col-lg-12 text-center">
+      <div style= " width: 100%; height: 580px " id="mapContainer">
+              <script src="js/map.js"></script>
+        </div>
+    </div>
+  </div>
   <!-- Page Content -->
   <div class="container">
     <div class="row">
