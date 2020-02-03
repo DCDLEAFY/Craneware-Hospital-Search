@@ -40,30 +40,51 @@
 
 
   <!-- Two columns -->
-  <div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;">
+  <div class="container">
   <!-- First div -->
-    <div class="col-lg-12 text-left" style="width: 30%">
+    <div class="col-lg-12 text-center">
+      <div style= " width: 100%; height: 580px; border-radius:25px" id="mapContainer">
+              <script src="js/map.js"></script>
+        </div>
+    </div>
+    
+  <!-- Second div -->
+  <div class="col-lg-12 text-left">
     <?php
         $procedureD=$_POST['procedureList'];
         $stateD=$_POST['stateList'];
+        $rank=1;
             // SQL query to receive the details of the available hospitals from the database
             $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND procedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
             $result = $con->query($sql);
+            //Start of the table container, to contain the details of the available hospitals depending on the procedure and the state
+            // While loop used to list the available hospitals and their details on the table
             while ($row = mysqli_fetch_array($result)){
-              echo "Hospital ID: " . $row['providerId']; 
-              echo "<br>Hospital Name: " . $row['providerName'];
-              echo "<br>Address: " . $row['providerAddress'] . " " . $row['providerCity'] . " " .  $row['providerState'] . " " . $row['providerZipCode'] . " " . $row['regionDescription'];
-              echo "<br>Price: " .  $row['averageTotalPayment'] . "<br>";
+              echo "
+              <br>
+              <table class=\"table table-striped table-borderless\" align=\"left\">
+              <thead class=\"thead-dark\">
+                <tr>
+                  <td style=\"width:10%\"></td>
+                  <th style=\"width:25%\">Hospital Name:</th>
+                  <td> " . $row['providerName'] . " </td>
+                </tr>
+                <tr>
+                  <td><b> " . $rank . "<b></td>
+                  <th>Address:</th>
+                  <td> " .  $row['providerAddress'] . " " . $row['providerCity'] . " " . $row['providerZipCode'] . " " . $row['regionDescription'] . "</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <th>Price:</th>
+                  <td> " . $row['averageTotalPayment'] . " </td>
+                </tr>
+              </thread>
+              </table>";
+              $rank=$rank+1;
             }
               mysqli_next_result($con);
-
     ?>
-    </div>
-  <!-- Second div -->
-    <div class="col-lg-12 text-center">
-      <div style= " width: 100%; height: 580px " id="mapContainer">
-              <script src="js/map.js"></script>
-        </div>
     </div>
   </div>
   <!-- Page Content -->
@@ -78,43 +99,7 @@
             $stateD=$_POST['stateList'];
             echo $procedureD . "<br>" . $stateD;
         ?>
-        <!-- Start of the table container, to contain the details of the available hospitals depending on the procedure and the state -->
-        <div class="table-container">
-          <?php
-            // SQL query to receive the details of the available hospitals from the database
-            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND procedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
-            $result = $con->query($sql);
-            echo "<table class=\"table table-striped table-bordered\">
-              <thead class=\"thead-dark\">
-                <tr>
-                  <th scope=\"col\">Provider ID</th>
-                  <th scope=\"col\">Provider Name</th>
-                  <th scope=\"col\">Address</th>
-                  <th scope=\"col\">City</th>
-                  <th scope=\"col\">State</th>
-                  <th scope=\"col\">Zip Code</th>
-                  <th scope=\"col\">Region Description</th>
-                  <th scope=\"col\">Average Total Payment</th>
-                </tr>
-              </thead>
-              <tbody>";
-            // While loop used to list the available hospitals and their details on the table
-            while ($row = mysqli_fetch_array($result)){
-              echo "<tr>";
-              echo "<td>" . $row['providerId'] . "</td>";
-              echo "<td>" . $row['providerName'] . "</td>";
-              echo "<td>" . $row['providerAddress'] . "</td>";
-              echo "<td>" . $row['providerCity'] . "</td>";
-              echo "<td>" . $row['providerState'] . "</td>";
-              echo "<td>" . $row['providerZipCode'] . "</td>";
-              echo "<td>" . $row['regionDescription'] . "</td>";
-              echo "<td>" . $row['averageTotalPayment'] . "</td>";
-              echo "</tr>";
-              }
-              mysqli_next_result($con);
-              echo "</tbody>";
-              echo "</table>";
-          ?>
+        
         <ul class="list-unstyled">
         <br>
           <li>Bootstrap 4.3.1</li>
