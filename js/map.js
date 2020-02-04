@@ -2,6 +2,11 @@
 
 var marker;
 
+// Initialize the platform object:
+var platform = new H.service.Platform({
+    apikey: 'iYvMpF1KOQJ89K6boSx23q7-l9Xtv4Jz3a5fun9MS1w'
+});
+
 /*
  * @param   {H.service.Platform} platform    A stub class to access HERE services
  */
@@ -28,7 +33,6 @@ function showPosition(position) {
         lng: lon
     });
     map.addObject(marker);
-
 
     //tracyMarker.getGeometry();
     //var distance = tracyMarker.getGeometry().distance(marker.getGeometry());
@@ -70,7 +74,7 @@ function restrictMap(map) {
     ;
 }
 
-function geocode(platform, text) {
+function geocode(text) {
     var geocoder = platform.getGeocodingService(),
         geocodingParameters = {
             searchText: text,
@@ -108,12 +112,6 @@ function onSuccess(result) {
 function onError(error) {
     alert('Can\'t reach the remote server');
 }
-//TODO Seperate this file into multiple functions/js files?
-// Initialize the platform object:
-var platform = new H.service.Platform({
-    apikey: 'iYvMpF1KOQJ89K6boSx23q7-l9Xtv4Jz3a5fun9MS1w'
-
-});
 
 // Get the default map types from the Platform object:
 var defaultLayers = platform.createDefaultLayers();
@@ -250,7 +248,6 @@ function addLocationsToMap(locations) {
 }
 
 // Now use the map as required...
-geocode(platform);
 
 restrictMap(map);
 
