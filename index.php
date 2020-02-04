@@ -152,7 +152,7 @@
 
         <!-- Ren's working here -->
         <div style="width: 640px; height: 480px " id="mapContainer">
-          <script src="js/map.js"></script>
+          <script src="js/test.js"></script>
         </div>
         
         <!-- End of second form -->
