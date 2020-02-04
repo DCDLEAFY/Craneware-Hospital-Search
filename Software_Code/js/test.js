@@ -1,7 +1,7 @@
 
-alert("HEllo!");
-
 var marker;
+var pngIcon = new H.map.Icon("https://cdn1.iconfinder.com/data/icons/nuvola2/32x32/apps/kcmdrkonqi.png");
+var map;
 
 // Initialize the platform object:
 var platform = new H.service.Platform({
@@ -40,7 +40,6 @@ function showPosition(position) {
     //distance = distance *  0.000621; //turn into us miles
     //console.log(distance); //open browser console to view (Dundee is about 5k miles)
 }
-var pngIcon = new H.map.Icon("https://cdn1.iconfinder.com/data/icons/nuvola2/32x32/apps/kcmdrkonqi.png");
 
 function restrictMap(map) {
 
@@ -118,29 +117,32 @@ function onError(error) {
 var defaultLayers = platform.createDefaultLayers();
 
 // Instantiate the map:
-var map = new H.Map(
-    document.getElementById('mapContainer'),
-    defaultLayers.vector.normal.map, {
-        zoom: 4,
-        center: {
-            lng: -95,
-            lat: 37
-        }
+if(typeof map === 'undefined' || map === null){
+    map = new H.Map(
+        document.getElementById('mapContainer'),
+        defaultLayers.vector.normal.map, {
+            zoom: 4,
+            center: {
+                lng: -95,
+                lat: 37
+            }
+        });
+    
+    window.addEventListener('resize', () => map.getViewPort().resize());
+    
+    // Enable the event system on the map instance:
+    var mapEvents = new H.mapevents.MapEvents(map);
+    
+    // Add event listeners:
+    map.addEventListener('tap', function(evt) {
+        // Log 'tap' and 'mouse' events:
+        console.log(evt.type, evt.currentPointer.type);
     });
 
-window.addEventListener('resize', () => map.getViewPort().resize());
-
-// Enable the event system on the map instance:
-var mapEvents = new H.mapevents.MapEvents(map);
-
-// Add event listeners:
-map.addEventListener('tap', function(evt) {
-    // Log 'tap' and 'mouse' events:
-    console.log(evt.type, evt.currentPointer.type);
-});
+    window.addEventListener('resize', () => map.getViewPort().resize());
+}
 
 // add a resize listener to make sure that the map occupies the whole container
-window.addEventListener('resize', () => map.getViewPort().resize());
 // Instantiate the default behavior, providing the mapEvents object:
 var behavior = new H.mapevents.Behavior(mapEvents);
 
@@ -250,7 +252,8 @@ function addLocationsToMap(locations) {
 
 // Now use the map as required...
 
-geocode("Miami");
+geocode("California");
+geocode("Texas");
 
 restrictMap(map);
 
