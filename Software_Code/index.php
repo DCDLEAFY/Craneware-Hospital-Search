@@ -140,10 +140,6 @@
             <br><br><br>
         </form>
         <br>
-         <!-- Ren's working here -->
-        <div style="width: 100%; height: 480px " id="mapContainer">
-          <script src="js/map.js"></script>
-        </div>
         <ul class="list-unstyled">
         <br>
           <li>Bootstrap 4.3.1</li>

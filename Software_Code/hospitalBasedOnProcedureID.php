@@ -36,15 +36,7 @@
 
   <!-- Navigation bar for the website-->
   <?php include_once 'navigationBar.php'; ?>
-
-  <!-- Page Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <!-- Title of the website -->
-        <h1 class="mt-5"> Map navigation </h1>
-        <!-- Getting the procedure code and state parameters from the index.php website -->
-        <?php
+  <?php
             $procedureIDD=$_POST['procedureIDList'];
             $stateIDD=$_POST['stateListBasedOnProcedureID'];
             // SQL query to find the procedure that the patient chose in the index.php based on the procedure code provided by the index.php
@@ -52,60 +44,91 @@
             $result1 = $con->query($sql);
             $row = mysqli_fetch_array($result1);
             $procedureName = $row['procedures'];
-            // Printing the procedure code, the procedure name and the state ID
-            echo $procedureIDD . "  " . $procedureName . "<br>" . $stateIDD;
         ?>
-        <!-- Start of the table container, to contain the details of the available hospitals depending on the procedure code/ID and the state -->
-        <div class="table-container">
+  <br>
+  <!-- Main Body -->
+  <div class="container">
+  <!-- Table used to show the procedure to the patient -->
+  <table class="table table-striped table-borderless">
+      <thead class="thead-dark">
+        <tr>
+          <th>Procedure code:</th>
+          <td> 
           <?php
-          // SQL query to receive the details of the available hospitals from the database
-          $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateIDD\" AND procedureID = \"$procedureIDD\" ORDER BY averageTotalPayment ASC;";
-          $result = $con->query($sql);
-          echo "<table class=\"table table-striped table-bordered\">
-            <thead class=\"thead-dark\">
-              <tr>
-                <th scope=\"col\">Provider ID</th>
-                <th scope=\"col\">Provider Name</th>
-                <th scope=\"col\">Address</th>
-                <th scope=\"col\">City</th>
-                <th scope=\"col\">State</th>
-                <th scope=\"col\">Zip Code</th>
-                <th scope=\"col\">Region Description</th>
-                <th scope=\"col\">Average Total Payment</th>
-              </tr>
-            </thead>
-            <tbody>";
-          // While loop used to list the available hospitals and their details on the table
-          while ($row = mysqli_fetch_array($result)){
-            echo "<tr>";
-            echo "<td>" . $row['providerId'] . "</td>";
-            echo "<td>" . $row['providerName'] . "</td>";
-            echo "<td>" . $row['providerAddress'] . "</td>";
-            echo "<td>" . $row['providerCity'] . "</td>";
-            echo "<td>" . $row['providerState'] . "</td>";
-            echo "<td>" . $row['providerZipCode'] . "</td>";
-            echo "<td>" . $row['regionDescription'] . "</td>";
-            echo "<td>" . $row['averageTotalPayment'] . "</td>";
-            echo "</tr>";
-            }
-            mysqli_next_result($con);
-            echo "</tbody>";
-            echo "</table>";
+              echo $procedureIDD;
           ?>
-        <ul class="list-unstyled">
-        <br>
-          <li>Bootstrap 4.3.1</li>
-          <li>jQuery 3.4.1</li>
-        </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Procedure:</th>
+          <td> 
+          <?php
+              echo $procedureName;
+          ?>
+          </td>
+        </tr>
+      </thread>
+    </table>
+    <!-- First div -->
+      <div class="col-lg-12 text-center">
+        <div style= " width: 100%; height: 580px" id="mapContainer">
+                <script src="js/map.js"></script>
+          </div>
       </div>
+      
+    <!-- Second div -->
+    <div class="col-lg-12 text-left" >
+      <?php
+        $procedureD=$procedureName;
+        $stateD=$stateIDD;
+        $rank=1;
+        // SQL query to receive the details of the available hospitals from the database
+        $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND procedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
+        $result = $con->query($sql);
+        //Start of the table container, to contain the details of the available hospitals depending on the procedure and the state
+        // While loop used to list the available hospitals and their details on the table
+        while ($row = mysqli_fetch_array($result)){
+          echo "
+          <br>
+          <div style=\"border: 2px solid grey; border-radius:25px\">
+          <br>
+          <table class=\"table table-striped table-borderless\">
+          <thead class=\"thead-dark\">
+            <tr>
+              <td style=\"width:10%\"></td>
+              <th style=\"width:25%\">Hospital Name:</th>
+              <td> " . $row['providerName'] . " </td>
+            </tr>
+            <tr>
+              <td><b> <div style=\"border: 2px solid green; text-align:center; border-radius:25px\">" . $rank . "<div><b></td>
+              <th>Address:</th>
+              <td> " .  $row['providerAddress'] . " " . $row['providerCity'] . " " . $row['providerZipCode'] . " " . $row['regionDescription'] . "</td>
+            </tr>
+            <tr>
+              <td></td>
+              <th>Price:</th>
+              <td> $ " . $row['averageTotalPayment'] . "</td>
+            </tr>
+          </thread>
+          </table>
+          </div>";
+          $rank=$rank+1;
+        }
+        mysqli_next_result($con);
+      ?>
     </div>
+      <ul class="list-unstyled"  style="text-align:center">
+          <br>
+            <li>Bootstrap 4.3.1</li>
+            <li>jQuery 3.4.1</li>
+      </ul>
   </div>
-  <!-- End of table container -->
+
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.slim.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  </body>
+</body>
 <!-- End of body -->
 </html>
 <!-- End of HTML file -->
