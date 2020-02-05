@@ -141,6 +141,10 @@
         var marker;
         var pngIcon = new H.map.Icon("https://cdn1.iconfinder.com/data/icons/nuvola2/32x32/apps/kcmdrkonqi.png");
         var map;
+        var userPosition;
+        var distance;
+        var range = '<?php echo $distanceMax; ?>';
+        alert(range);
 
         // Initialize the platform object:
         var platform = new H.service.Platform({
@@ -168,11 +172,11 @@
                 lat: lat,
                 lng: lon
             });
-            marker = new H.map.Marker({
+            userPosition = new H.map.Marker({
                 lat: lat,
                 lng: lon
             });
-            map.addObject(marker);
+            map.addObject(userPosition);
 
             //tracyMarker.getGeometry();
             //var distance = tracyMarker.getGeometry().distance(marker.getGeometry());
@@ -380,13 +384,15 @@
 
             group.addEventListener('tap', function(evt) {
                 map.setCenter(evt.target.getGeometry());
+                distance = Math.round(userPosition.getGeometry().distance(evt.target.getGeometry()) * 0.000621)
                 openBubble(
-                    evt.target.getGeometry(), evt.target.label);
+                    evt.target.getGeometry(), evt.target.label + ", " + distance + " miles");
             }, false);
 
-            // Add the locations group to the map
-            map.addObject(group);
-            map.setCenter(group.getBoundingBox().getCenter());
+            //if(range > distance){
+                map.addObject(group);
+                map.setCenter(group.getBoundingBox().getCenter());
+            //}
         }
 
         // Now use the map as required...
