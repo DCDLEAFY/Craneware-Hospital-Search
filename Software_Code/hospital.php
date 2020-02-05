@@ -38,7 +38,7 @@
     $procedureD = $_POST['procedureList'];
     $stateD = $_POST['stateList'];
     // SQL query to find the procedure that the patient chose in the index.php based on the procedure code provided by the index.php
-    $sql = "SELECT DISTINCT procedureID, procedures FROM 19agileteam12db.data WHERE procedures = \"$procedureD\";";
+    $sql = "SELECT DISTINCT procedureID, procedures FROM 19agileteam12db.data WHERE extendedProcedures = \"$procedureD\";";
     $result1 = $con->query($sql);
     $row = mysqli_fetch_array($result1);
     $procedureID = $row['procedureID'];
@@ -85,7 +85,7 @@
             $rank = 1;
             $list = "";
             // SQL query to receive the details of the available hospitals from the database
-            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND procedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
+            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND extendedProcedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
             $result = $con->query($sql);
             //Start of the table container, to contain the details of the available hospitals depending on the procedure and the state
             // While loop used to list the available hospitals and their details on the table
