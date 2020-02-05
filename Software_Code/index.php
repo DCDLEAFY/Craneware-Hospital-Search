@@ -10,6 +10,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+<style>
+  .slidecontainer {
+    width: 100%;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+</style>
   <title>Craneware Maps</title>
 
   <!-- Bootstrap core CSS -->
@@ -88,6 +124,24 @@
             ?>
           </select>
           <br><br><br>
+          <?php 
+          $sqlMax = 'SELECT MAX(data.averageTotalPayment) as maxVal FROM 19agileteam12db.data';
+          $result = $con->query($sqlMax);
+          $maxVal;
+          foreach($result as $val){
+            $maxVal = $val['maxVal'];
+          }
+          ?>
+          <div>
+            <input class="slider" id="priceSlider" name="priceSlider" value="<?php echo $maxVal ?>" type="range" min="0" max="<?php echo $maxVal ?>" oninput="document.getElementById('pSlider').innerHTML = this.value"/>
+            <kbd><label id="pSlider"><?php echo $maxVal ?></label> <label> Dollars</label></kbd>
+          </div>
+          <br>
+          <div>
+            <input class="slider" id="distanceSlider" name="distanceSlider" value="" type="range" min="0" max="3000" oninput="document.getElementById('dSlider').innerHTML = this.value"/>
+            <kbd><label id="dSlider">3000</label> <label> Miles</label></kbd>
+          </div>
+          <br>
           <!-- Submit button to submit the form -->
           <button type="submit" class="btn btn-secondary" style="border-radius: 25px">Search</button>
          <br><br><br>
