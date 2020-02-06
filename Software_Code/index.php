@@ -20,11 +20,13 @@
       -webkit-appearance: none;
       width: 100%;
       height: 25px;
-      background: #d3d3d3;
+      background-image: linear-gradient(to right, white, #343a40);;
       outline: none;
       opacity: 0.7;
       -webkit-transition: .2s;
       transition: opacity .2s;
+      border-radius: 25px;
+      border: 1px solid grey;
     }
 
     .slider:hover {
@@ -36,8 +38,10 @@
       appearance: none;
       width: 25px;
       height: 25px;
-      background: #4CAF50;
+      background: white;
       cursor: pointer;
+      border-radius: 25px;
+      border: 1px solid grey;
     }
 
     .slider::-moz-range-thumb {
@@ -66,13 +70,13 @@
 
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
 
-
+  <!-- Links and scripts used to display a search bar in the dropdown list for procedures and lists -->
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
+  <!-- Style label for the dropdown list for procedures and lists -->
   <style>
     .select2-container .select2-selection--single {
       height: 34px !important;
@@ -102,50 +106,58 @@
         <form action='hospital.php' method=post style="background-color:#ebebe0; border-radius: 25px">
           <!-- Procedures(Unique) to be selected by the user will be filled out by the database via php -->
           <br>
-          <h5>
-            What procedure are you looking for?
-          </h5>
-          <br><br>
-          <select class="form-control select2 custom-select" name="procedureList" style="width:80%">
-            <option value=""> Select a procedure </option>
-            <!-- SQL query that gets the available procedures from the database -->
-            <?php
-            $sql = 'SELECT DISTINCT extendedProcedures FROM 19agileteam12db.data ORDER BY extendedProcedures ASC';
-            $result = $con->query($sql);
-            foreach ($result as $procedure) {
-              echo '<option value="' . $procedure["extendedProcedures"] . '">' . $procedure["extendedProcedures"] . ' </option>';
-            }
-            ?>
-          </select>
-          <script>
-            $('.select2').select2();
-          </script>
-
-          <!-- Select class allowing the patients to choose a procedure -->
+          <!-- DIV containing the procedure area of the form-->
+          <div>
+            <h5>
+              What procedure are you looking for?
+            </h5>
+            <br><br>
+            <!-- Select class allowing the patients to choose a procedure -->
+            <select class="form-control select2 custom-select" name="procedureList" style="width:80%">
+              <option value=""> Select a procedure </option>
+              <!-- SQL query that gets the available procedures from the database -->
+              <?php
+              $sql = 'SELECT DISTINCT extendedProcedures FROM 19agileteam12db.data ORDER BY extendedProcedures ASC';
+              $result = $con->query($sql);
+              foreach ($result as $procedure) {
+                echo '<option value="' . $procedure["extendedProcedures"] . '">' . $procedure["extendedProcedures"] . ' </option>';
+              }
+              ?>
+            </select>
+            <!-- Script label for the dropdown list for procedures and lists -->
+            <script>
+              $('.select2').select2();
+            </script>
+          </div>
+          
 
           <br>
           <!-- States(Unique) will be selected via php from the database so the user can select it-->
           <br>
-          <h5>
-            Which State code are you in?
-          </h5>
-          <br><br>
-          <!-- Select class allowing the users to choose a state -->
-          <select class="form-control select2 custom-select" id="inputGroupSelect04" name="stateList" style="width:80%; border-radius: 25px;">
-            <option value="" style="text-align:center"> Select a state </option>
-            <!-- SQL query that gets the available states from the database -->
-            <?php
-            $sql = 'SELECT DISTINCT providerState FROM 19agileteam12db.data ORDER BY providerState ASC';
-            $result = $con->query($sql);
-            foreach ($result as $state) {
-              echo '<option value="' . $state["providerState"] . '">' . $state["providerState"] . ' </option>';
-            }
-            mysqli_next_result($con);
-            ?>
-          </select>
-          <script>
-            $('.select2').select2();
-          </script>
+          <!-- DIV containing the state area of the form-->
+          <div>
+            <h5>
+              Which State code are you in?
+            </h5>
+            <br><br>
+            <!-- Select class allowing the users to choose a state -->
+            <select class="form-control select2 custom-select" id="inputGroupSelect04" name="stateList" style="width:80%; border-radius: 25px;">
+              <option value="" style="text-align:center"> Select a state </option>
+              <!-- SQL query that gets the available states from the database -->
+              <?php
+              $sql = 'SELECT DISTINCT providerState FROM 19agileteam12db.data ORDER BY providerState ASC';
+              $result = $con->query($sql);
+              foreach ($result as $state) {
+                echo '<option value="' . $state["providerState"] . '">' . $state["providerState"] . ' </option>';
+              }
+              mysqli_next_result($con);
+              ?>
+            </select>
+            <!-- Style label for the dropdown list for procedures and lists -->
+            <script>
+              $('.select2').select2();
+            </script>
+          </div>
           <br><br><br>
           <?php
           $sqlMax = 'SELECT MAX(data.averageTotalPayment) as maxVal FROM 19agileteam12db.data';
@@ -156,13 +168,13 @@
           }
           ?>
           <div>
-            <input class="slider" id="priceSlider" name="priceSlider" value="<?php echo $maxVal ?>" type="range" min="0" max="<?php echo $maxVal ?>" oninput="document.getElementById('pSlider').innerHTML = this.value" />
-            <kbd><label id="pSlider"><?php echo $maxVal ?></label> <label> Dollars</label></kbd>
+            <input class="slider" id="priceSlider" name="priceSlider" value="<?php echo $maxVal ?>" type="range" min="0" max="<?php echo $maxVal ?>" oninput="document.getElementById('pSlider').innerHTML = this.value" style="width:80%"/>
+            <br><kbd><label id="pSlider"><?php echo $maxVal ?></label> <label> Dollars</label></kbd>
           </div>
           <br>
           <div>
-            <input class="slider" id="distanceSlider" name="distanceSlider" value="" type="range" min="0" max="3000" oninput="document.getElementById('dSlider').innerHTML = this.value" />
-            <kbd><label id="dSlider">3000</label> <label> Miles</label></kbd>
+            <input class="slider" id="distanceSlider" name="distanceSlider" value="" type="range" min="0" max="3000" oninput="document.getElementById('dSlider').innerHTML = this.value" style="width:80%"/>
+            <br><kbd><label id="dSlider">3000</label> <label> Miles</label></kbd>
           </div>
           <br>
           <!-- Submit button to submit the form -->
