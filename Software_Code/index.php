@@ -168,13 +168,13 @@
           }
           ?>
           <div>
-            <input class="slider" id="priceSlider" name="priceSlider" value="<?php echo $maxVal ?>" type="range" min="0" max="<?php echo $maxVal ?>" oninput="document.getElementById('pSlider').innerHTML = this.value" style="width:80%"/>
+            <input class="slider" id="priceSlider" name="priceSlider" value="<?php echo $maxVal ?>" type="range" min="2498" max="<?php echo $maxVal ?>" oninput="document.getElementById('pSlider').innerHTML = this.value" style="width:80%"/>
             <br><kbd><label id="pSlider"><?php echo $maxVal ?></label> <label> Dollars</label></kbd>
           </div>
           <br>
           <div>
-            <input class="slider" id="distanceSlider" name="distanceSlider" value="" type="range" min="0" max="3000" oninput="document.getElementById('dSlider').innerHTML = this.value" style="width:80%"/>
-            <br><kbd><label id="dSlider">3000</label> <label> Miles</label></kbd>
+            <input class="slider" id="distanceSlider" name="distanceSlider" value="500" type="range" min="0" max="500" oninput="document.getElementById('dSlider').innerHTML = this.value" style="width:80%"/>
+            <br><kbd><label id="dSlider">500</label> <label> Miles</label></kbd>
           </div>
           <br>
           <!-- Submit button to submit the form -->
