@@ -1,6 +1,3 @@
-
-alert("HEllo!");
-
 var marker;
 
 // Initialize the platform object:
