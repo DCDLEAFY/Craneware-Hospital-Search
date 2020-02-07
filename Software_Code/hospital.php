@@ -65,7 +65,7 @@
                         ?>
                     </td>
                 </tr>
-                </thead>
+            </thead>
         </table>
         <!-- First div -->
         <div class="col-lg-12 text-center">
@@ -80,12 +80,10 @@
             $stateD = $_POST['stateList'];
             $priceMax = $_POST['priceSlider'];
             $distanceMax = $_POST['distanceSlider'];
-            echo $priceMax . "<br>";
-            echo $distanceMax;
             $rank = 1;
             $list = "";
             // SQL query to receive the details of the available hospitals from the database
-            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND extendedProcedures = \"$procedureD\" ORDER BY averageTotalPayment ASC;";
+            $sql = "SELECT providerId, providerName, providerAddress, providerCity, providerState, providerZipCode, regionDescription, averageTotalPayment FROM 19agileteam12db.data WHERE providerState = \"$stateD\" AND extendedProcedures = \"$procedureD\" AND averageTotalPayment <= $priceMax ORDER BY averageTotalPayment ASC;";
             $result = $con->query($sql);
             //Start of the table container, to contain the details of the available hospitals depending on the procedure and the state
             // While loop used to list the available hospitals and their details on the table
@@ -144,7 +142,6 @@
         var userPosition;
         var distance;
         var range = '<?php echo $distanceMax; ?>';
-        alert(range);
 
         // Initialize the platform object:
         var platform = new H.service.Platform({
@@ -177,7 +174,12 @@
                 lng: lon
             });
             map.addObject(userPosition);
+            var listAddress = "<?php echo $list; ?>";
+            var Arr = listAddress.split(',');
 
+            for (i = 1; i < Arr.length; i++) {
+                geocode(Arr[i]);
+            }
             //tracyMarker.getGeometry();
             //var distance = tracyMarker.getGeometry().distance(marker.getGeometry());
             //distance = distance *  0.000621; //turn into us miles
@@ -376,34 +378,35 @@
                     lat: locations[i].location.displayPosition.latitude,
                     lng: locations[i].location.displayPosition.longitude
                 };
+
                 marker = new H.map.Marker(position);
                 marker.label = locations[i].location.address.label;
                 marker.icon = pngIcon
-                group.addObject(marker);
+
+                distance = Math.round(userPosition.getGeometry().distance(marker.getGeometry()) * 0.000621)
+
+
+                if (range > distance) {
+                    group.addObject(marker);
+                }
             }
 
             group.addEventListener('tap', function(evt) {
                 map.setCenter(evt.target.getGeometry());
-                distance = Math.round(userPosition.getGeometry().distance(evt.target.getGeometry()) * 0.000621)
                 openBubble(
-                    evt.target.getGeometry(), evt.target.label + ", " + distance + " miles");
+                    evt.target.getGeometry(), evt.target.label);
             }, false);
 
-            //if(range > distance){
-                map.addObject(group);
-                map.setCenter(group.getBoundingBox().getCenter());
+            //if(range < distance){
+            map.addObject(group);
+            map.setCenter(group.getBoundingBox().getCenter());
             //}
         }
 
         // Now use the map as required...
 
 
-        var listAddress = "<?php echo $list; ?>";
-        var Arr = listAddress.split(',');
 
-        for (i = 1; i < Arr.length; i++) {
-            geocode(Arr[i]);
-        }
 
         restrictMap(map);
 
